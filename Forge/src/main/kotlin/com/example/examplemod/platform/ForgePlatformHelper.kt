@@ -1,26 +1,15 @@
-package com.example.examplemod.platform;
+package com.example.examplemod.platform
 
-import com.example.examplemod.platform.services.IPlatformHelper;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.FMLLoader;
+import com.example.examplemod.platform.services.PlatformHelper
+import net.minecraftforge.fml.ModList
+import net.minecraftforge.fml.loading.FMLLoader
 
-public class ForgePlatformHelper implements IPlatformHelper {
+class ForgePlatformHelper : PlatformHelper {
 
-    @Override
-    public String getPlatformName() {
+    override val platformName = "Forge"
 
-        return "Forge";
-    }
+    override fun isModLoaded(modId: String) = ModList.get().isLoaded(modId)
 
-    @Override
-    public boolean isModLoaded(String modId) {
-
-        return ModList.get().isLoaded(modId);
-    }
-
-    @Override
-    public boolean isDevelopmentEnvironment() {
-
-        return !FMLLoader.isProduction();
-    }
+    override val isDevelopmentEnvironment: Boolean
+        by lazy { !FMLLoader.isProduction() }
 }

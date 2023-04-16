@@ -1,7 +1,17 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' apply false
+}
+
 subprojects {
-    
-    apply plugin: 'java'
-    
+
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+    if (project.hasProperty('serialization_version')) {
+        apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
+    }
+
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     java.withSourcesJar()
     java.withJavadocJar()
@@ -47,10 +57,28 @@ subprojects {
         }
     }
 
+    dependencies {
+        implementation 'org.jetbrains.kotlin:kotlin-reflect'
+        implementation platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:$coroutines_version")
+        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm'
+        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-jdk8'
+        if (project.hasProperty('serialization_version')) {
+            implementation platform("org.jetbrains.kotlinx:kotlinx-serialization-bom:$serialization_version")
+            implementation 'org.jetbrains.kotlinx:kotlinx-serialization-core-jvm'
+            implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json-jvm'
+        }
+    }
+
     tasks.withType(JavaCompile).configureEach {
-    
         it.options.encoding = 'UTF-8'
         it.options.release = 17
+    }
+
+    tasks.withType(KotlinCompilationTask).configureEach {
+        compilerOptions {
+            javaParameters = true
+            jvmTarget = JvmTarget.JVM_17
+        }
     }
 
     // Disables Gradle's custom module metadata from being published to maven. The

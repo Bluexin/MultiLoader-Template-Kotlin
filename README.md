@@ -1,6 +1,6 @@
 # MultiLoader Template
 
-This project provides a Gradle project template that can compile mods for both Forge and Fabric using a common sourceset. This project does not require any third party libraries or dependencies.
+This project provides a Gradle project template that can compile Kotlin mods for both Forge and Fabric using a common sourceset. This project adds a dependency on [KotlinForForge](https://github.com/thedarkcolour/KotlinForForge) and [fabric-language-kotlin](https://github.com/FabricMC/fabric-language-kotlin).
 
 ## Getting Started
 
@@ -17,7 +17,8 @@ This guide will show how to import the MultiLoader Template into IntelliJ IDEA. 
 8. Assuming you were able to run the game in step 7 your workspace should now be set up.
 
 ### Eclipse
-While it is possible to use this template in Eclipse it is not recommended. During the development of this template multiple critical bugs and quirks related to Eclipse were found at nearly every level of the required build tools. While we continue to work with these tools to report and resolve issues support for projects like these are not there yet. For now Eclipse is considered unsupported by this project. The development cycle for build tools is notoriously slow so there are no ETAs available.
+Eclipse is in my personal opinion irrelevant when it comes to writing Kotlin code so I will not spend time on it.
+Feel free to PR changes to support this :)
 
 ## Development Guide
 When using this template the majority of your mod is developed in the Common project. The Common project is compiled against the vanilla game and is used to hold code that is shared between the different loader-specific versions of your mod. The Common project has no knowledge or access to ModLoader specific code, apis, or concepts. Code that requires something from a specific loader must be done through the project that is specific to that loader, such as the Forge or Fabric project.
